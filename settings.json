@@ -1,0 +1,29 @@
+{
+    "WeekdaySeedTime": "10:00:00",
+    "WeekendSeedTime": "10:00:00",
+    "TimeZoneId": "Eastern Standard Time",
+    "ServerName": "Helios | Lvl 25+ | Discord.gg/newhelios",
+    "MainFormColor": "#181926",
+    "MainFormLogo": "helios_logo.png",
+    "ServerList": [
+        "Helios | Lvl 25+ | Discord.gg/newhelios",
+        "GARRYBUSTERS | discord.gg/garrybusters"
+    ],
+    "CurrentMode": "Helios",
+    "HeliosSettings": {
+        "WeekdaySeedTime": "10:00:00",
+        "WeekendSeedTime": "10:00:00",
+        "TimeZoneId": "Eastern Standard Time",
+        "ServerName": "Helios | Lvl 25+ | Discord.gg/newhelios",
+        "MainFormColor": "#181926",
+        "MainFormLogo": "Helios Logo TRANSPARENT.png"
+    },
+    "AussieSettings": {
+        "WeekdaySeedTime": "06:30:00",
+        "WeekendSeedTime": "06:30:00",
+        "TimeZoneId": "AUS Eastern Standard Time",
+        "ServerName": "GARRYBUSTERS | discord.gg/garrybusters",
+        "MainFormColor": "#333333",
+        "MainFormLogo": "Aussie_logo.jpg"
+    }
+}
