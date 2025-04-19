@@ -1,14 +1,10 @@
+H:\BA\Scripts\AutoSeed\AutoSeed\bin\Debug\net8.0-windows\Aussie_logo.jpg
+H:\BA\Scripts\AutoSeed\AutoSeed\bin\Debug\net8.0-windows\Helios Logo TRANSPARENT.png
 H:\BA\Scripts\AutoSeed\AutoSeed\bin\Debug\net8.0-windows\settings.json
 H:\BA\Scripts\AutoSeed\AutoSeed\bin\Debug\net8.0-windows\AutoSeed.exe
-H:\BA\Scripts\AutoSeed\AutoSeed\bin\Debug\net8.0-windows\Aussie_logo.jpg
 H:\BA\Scripts\AutoSeed\AutoSeed\bin\Debug\net8.0-windows\CogWheel.png
-H:\BA\Scripts\AutoSeed\AutoSeed\bin\Debug\net8.0-windows\Helios Logo TRANSPARENT.png
 H:\BA\Scripts\AutoSeed\AutoSeed\bin\Debug\net8.0-windows\helios.ico
 H:\BA\Scripts\AutoSeed\AutoSeed\bin\Debug\net8.0-windows\info_icon.png
-H:\BA\Scripts\AutoSeed\AutoSeed\bin\Debug\net8.0-windows\join_button.png
-H:\BA\Scripts\AutoSeed\AutoSeed\bin\Debug\net8.0-windows\join_macro.exe
-H:\BA\Scripts\AutoSeed\AutoSeed\bin\Debug\net8.0-windows\search_box.png
-H:\BA\Scripts\AutoSeed\AutoSeed\bin\Debug\net8.0-windows\server_browser.png
 H:\BA\Scripts\AutoSeed\AutoSeed\bin\Debug\net8.0-windows\AutoSeed.dll.config
 H:\BA\Scripts\AutoSeed\AutoSeed\bin\Debug\net8.0-windows\AutoSeed.deps.json
 H:\BA\Scripts\AutoSeed\AutoSeed\bin\Debug\net8.0-windows\AutoSeed.runtimeconfig.json
@@ -28,9 +24,12 @@ H:\BA\Scripts\AutoSeed\AutoSeed\obj\Debug\net8.0-windows\AutoSeed.GeneratedMSBui
 H:\BA\Scripts\AutoSeed\AutoSeed\obj\Debug\net8.0-windows\AutoSeed.AssemblyInfoInputs.cache
 H:\BA\Scripts\AutoSeed\AutoSeed\obj\Debug\net8.0-windows\AutoSeed.AssemblyInfo.cs
 H:\BA\Scripts\AutoSeed\AutoSeed\obj\Debug\net8.0-windows\AutoSeed.csproj.CoreCompileInputs.cache
+H:\BA\Scripts\AutoSeed\AutoSeed\obj\Debug\net8.0-windows\AutoSeed.sourcelink.json
 H:\BA\Scripts\AutoSeed\AutoSeed\obj\Debug\net8.0-windows\AutoSeed.csproj.Up2Date
 H:\BA\Scripts\AutoSeed\AutoSeed\obj\Debug\net8.0-windows\AutoSeed.dll
 H:\BA\Scripts\AutoSeed\AutoSeed\obj\Debug\net8.0-windows\refint\AutoSeed.dll
 H:\BA\Scripts\AutoSeed\AutoSeed\obj\Debug\net8.0-windows\AutoSeed.pdb
 H:\BA\Scripts\AutoSeed\AutoSeed\obj\Debug\net8.0-windows\AutoSeed.genruntimeconfig.cache
 H:\BA\Scripts\AutoSeed\AutoSeed\obj\Debug\net8.0-windows\ref\AutoSeed.dll
+H:\BA\Scripts\AutoSeed\AutoSeed\bin\Debug\net8.0-windows\AutoSeeder.png
+H:\BA\Scripts\AutoSeed\AutoSeed\bin\Debug\net8.0-windows\AutoSeeder.ico

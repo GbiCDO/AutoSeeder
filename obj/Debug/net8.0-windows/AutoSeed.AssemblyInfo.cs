@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("AutoSeed")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+92a4059ec0f6a4bfbf4fb538197d52c91cb75a3a")]
 [assembly: System.Reflection.AssemblyProductAttribute("AutoSeed")]
 [assembly: System.Reflection.AssemblyTitleAttribute("AutoSeed")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

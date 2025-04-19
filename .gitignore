@@ -1,0 +1,67 @@
+## Ignore Visual Studio temporary files, build results, and user-specific files
+
+# Build results
+bin/
+obj/
+out/
+[Bb]uild/
+[Bb]uild[Ll]og.*
+
+# User-specific files
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+
+# VS Code files
+.vscode/
+
+# Visual Studio folders
+.vs/
+
+# NuGet packages
+*.nupkg
+*.snupkg
+*.nuspec
+packages/
+*.NuGet.Config
+
+# MSBuild log files
+*.log
+
+# Rider and ReSharper
+.idea/
+*.DotSettings.user
+_ReSharper*/
+
+# Windows image cache/thumbnails
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+
+# Auto-generated files
+*.generated.*
+*.g.cs
+*.g.i.cs
+
+# Test Results
+TestResults/
+*.trx
+*.coverage
+*.coveragexml
+
+# Publish files
+*.publish.xml
+*.pubxml
+*.pfx
+*.key
+
+# Local History for Visual Studio Code
+.history/
+
+# Backup files
+*~ 
+*.bak
+*.old
+
+# Compiled DLLs & EXEs (optional

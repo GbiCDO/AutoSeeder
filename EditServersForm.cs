@@ -39,12 +39,12 @@ namespace AutoSeed
             }
         }
 
-        private void btnSave_Click(object sender, EventArgs e)
-        {
-            appSettings.ServerList = lstServers.Items.Cast<string>().ToList();
-            appSettings.Save();
-            this.Close();
-        }
+        //private void btnSave_Click(object sender, EventArgs e)
+        //{
+        //    appSettings.ServerList = lstServers.Items.Cast<string>().ToList();
+        //    appSettings.Save();
+        //    this.Close();
+        //}
 
         private void btnCancel_Click(object sender, EventArgs e)
         {

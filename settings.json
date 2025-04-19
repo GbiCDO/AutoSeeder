@@ -4,10 +4,16 @@
     "TimeZoneId": "Eastern Standard Time",
     "ServerName": "Helios | Lvl 25+ | Discord.gg/newhelios",
     "MainFormColor": "#181926",
-    "MainFormLogo": "helios_logo.png",
+    "MainFormLogo": "Helios Logo TRANSPARENT.png",
     "ServerList": [
-        "Helios | Lvl 25+ | Discord.gg/newhelios",
-        "GARRYBUSTERS | discord.gg/garrybusters"
+        {
+            "Name": "Helios | Lvl 25+ | Discord.gg/newhelios",
+            "ApiUrl": "http://207.244.232.58:7010/api/get_public_info"
+        },
+        {
+            "Name": "GARRYBUSTERS | discord.gg/garrybusters",
+            "ApiUrl": "http://192.169.95.74:7010/api/get_public_info"
+        }
     ],
     "CurrentMode": "Helios",
     "HeliosSettings": {
@@ -16,7 +22,14 @@
         "TimeZoneId": "Eastern Standard Time",
         "ServerName": "Helios | Lvl 25+ | Discord.gg/newhelios",
         "MainFormColor": "#181926",
-        "MainFormLogo": "Helios Logo TRANSPARENT.png"
+        "MainFormLogo": "Helios Logo TRANSPARENT.png",
+        "ServerList": [
+            {
+                "Name": "Helios | Lvl 25+ | Discord.gg/newhelios",
+                "Ip": "192.169.86.109:7787",
+                "ApiUrl": "http://207.244.232.58:7010/api/get_public_info"
+            }
+        ]
     },
     "AussieSettings": {
         "WeekdaySeedTime": "06:30:00",
@@ -24,6 +37,38 @@
         "TimeZoneId": "AUS Eastern Standard Time",
         "ServerName": "GARRYBUSTERS | discord.gg/garrybusters",
         "MainFormColor": "#333333",
-        "MainFormLogo": "Aussie_logo.jpg"
+        "MainFormLogo": "Aussie_logo.jpg",
+        "ServerList": [
+            {
+                "Name": "GARRYBUSTERS | discord.gg/garrybusters",
+                "Ip": "103.193.80.145:7777",
+                "ApiUrl": "http://192.169.95.74:7010/api/get_public_info"
+            }
+        ]
+    },
+    "AllianceSettings": {
+        "WeekdaySeedTime": "10:00:00",
+        "WeekendSeedTime": "10:00:00",
+        "TimeZoneId": "Eastern Standard Time",
+        "ServerName": "=ROTN= | discord.gg/rangersofthenorth | LVL 25+ AT PEAK HOURS",
+        "MainFormColor": "#181926",
+        "MainFormLogo": "AutoSeeder.png",
+        "ServerList": [
+            {
+                "Name": "=ROTN= | discord.gg/rangersofthenorth | LVL 25+ AT PEAK HOURS",
+                "Ip": "92.118.18.90:7777",
+                "ApiUrl": "https://rotn-stats.crcon.cc/api/get_public_info"
+            },
+            {
+                "Name": "Bakers Dozen [B13] | US East | discord.gg/b13",
+                "Ip": "192.169.86.54:7777",
+                "ApiUrl": "https://b13stats.brewdawgs.vip/api/get_public_info"
+            },
+            {
+                "Name": "Helios | Lvl 25+ | Discord.gg/newhelios",
+                "Ip": "192.169.86.109:7787",
+                "ApiUrl": "http://207.244.232.58:7010/api/get_public_info"
+            }
+        ]
     }
 }

@@ -69,7 +69,7 @@
             this.btnSave.Text = "Save";
             this.btnSave.Location = new Point(200, 270);
             this.btnSave.Size = new Size(75, 30);
-            this.btnSave.Click += new EventHandler(this.btnSave_Click);
+            //this.btnSave.Click += new EventHandler(this.btnSave_Click);
 
             // btnCancel
             this.btnCancel.Text = "Cancel";

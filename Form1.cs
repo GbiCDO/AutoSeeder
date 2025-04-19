@@ -1,17 +1,18 @@
 ﻿using System.Diagnostics;
 using System.Runtime.InteropServices;
 using Newtonsoft.Json.Linq;
-using System.Globalization;
-using System.Threading;
-using System.Timers;
+using WindowsInput;
+using WindowsInput.Native;
 using TimeZoneConverter;
+using Microsoft.Win32;
+using System.Text.Json;
+using System.Threading.Tasks;
 
 
 namespace AutoSeed
 {
     public partial class Form1 : Form
     {
-        private Process hllProcess;
 
         public Form1()
         {
@@ -19,10 +20,11 @@ namespace AutoSeed
 
             // Safe: add the click handler in user code
             this.picInfo.Click += (s, e) => new InfoForm().ShowDialog();
+            const string CURRENT_VERSION = "1.1.0";
+            this.Text = $"AutoSeeder - Version: {CURRENT_VERSION}";
         }
 
         private static readonly HttpClient httpClient = new HttpClient();
-        private const string apiUrl = "http://207.244.232.58:7010/api/get_public_info";
         private const int playerThreshold = 80;
         private CancellationTokenSource cancellationTokenSource;
 
@@ -34,13 +36,19 @@ namespace AutoSeed
 
         private const int SW_RESTORE = 9;
 
-        private async void btnStart_Click(object sender, EventArgs e)
+        private async void btnStart_Click_Wrapper(object sender, EventArgs e)
+        {
+            await btnStart_Click(sender, e);
+        }
+
+        private async Task btnStart_Click(object sender, EventArgs e)
         {
             var appSettings = Settings.Load();
             TimeSpan seedTime = appSettings.WeekdaySeedTime;
             string seedType = appSettings.ServerName;
 
             btnStart.Enabled = false;
+            picSettings.Enabled = false;
             btnStart.Text = "Seeding...";
             btnCancel.Enabled = true;
             cancellationTokenSource = new CancellationTokenSource();
@@ -81,17 +89,8 @@ namespace AutoSeed
                 }
 
                 UpdateStatus("Launching Hell Let Loose...", Color.Green);
-                LaunchHellLetLoose();
-                await Task.Delay(30000);
+                await SeedAllServersAsync();
 
-                UpdateStatus("Running join macro...", Color.MediumPurple);
-                FocusHellLetLooseWindow();
-                await Task.Delay(1500); // Give time for the game to pop in front
-                RunJoinMacro();
-
-                await Task.Delay(300000); // 5 minutes
-                UpdateStatus("Monitoring player count...", Color.DodgerBlue);
-                await MonitorServerPlayerCount();
 
                 if (chkShutdown.Checked)
                 {
@@ -110,6 +109,7 @@ namespace AutoSeed
             finally
             {
                 btnStart.Enabled = true;
+                picSettings.Enabled = true;
                 btnStart.Text = "Start Seeding";
                 btnCancel.Enabled = false;
                 if (cancellationTokenSource != null)
@@ -120,52 +120,115 @@ namespace AutoSeed
             }
         }
 
-        private void LaunchHellLetLoose()
+        public static string? GetSteamExecutablePath()
         {
-            try
-            {
-                string appId = "686810"; // Hell Let Loose App ID
+            // 32-bit apps on 64-bit systems will look here
+            string regPath = @"HKEY_LOCAL_MACHINE\SOFTWARE\WOW6432Node\Valve\Steam";
+            string? steamInstallPath = Registry.GetValue(regPath, "InstallPath", null) as string;
 
-                // Step 1: Launch Hell Let Loose via Steam App ID
-                var launchGame = new ProcessStartInfo
+            if (string.IsNullOrEmpty(steamInstallPath))
+                return null;
+
+            string steamExePath = Path.Combine(steamInstallPath, "steam.exe");
+            return File.Exists(steamExePath) ? steamExePath : null;
+        }
+
+        private async Task SeedAllServersAsync()
+        {
+            var settings = Settings.Load();
+
+            foreach (var server in settings.ServerList)
+            {
+                UpdateStatus($"Seeding server: {server.Name}", Color.LightBlue);
+                settings.ServerName = server.Name;
+                UpdateCurrentServerLabel();
+
+                await StartGameAndJoin(server);
+                UpdateStatus($"{server.Name}: Waiting for player threshold...", Color.Orange);
+
+                bool thresholdReached = await WaitForPlayerThresholdAsync(server.ApiUrl, 65); // example threshold
+
+                if (thresholdReached)
                 {
-                    FileName = $"steam://rungameid/{appId}",
-                    UseShellExecute = true
-                };
-                Process.Start(launchGame);
+                    UpdateStatus("Player threshold reached. Beginning staggered disconnects...", Color.Yellow);
+                    await StaggerDisconnectAsync();
 
-                // Step 2: Wait for the game to fully launch
-                //await Task.Delay(15000); // Wait 15 seconds (adjust if needed)
+                    KillGame();
+
+                    UpdateStatus("Server complete. Moving to next server...", Color.LightGreen);
+                    await Task.Delay(10000); // optional pause before next loop
+                }
+                else
+                {
+                    UpdateStatus("Failed to reach threshold. Moving to next server.", Color.Red);
+                    KillGame();
+                }
             }
-            catch (Exception ex)
+
+            UpdateStatus("All servers seeded. Exiting...", Color.DarkGreen);
+            if (chkShutdown.Checked)
             {
-                MessageBox.Show("Failed to start game or connect to server: " + ex.Message);
+                ShutdownComputer();
             }
         }
 
-        private void RunJoinMacro()
+        private async Task StartGameAndJoin(ServerEntry server)
         {
-            var exePath = Path.Combine(Application.StartupPath, "join_macro.exe");
+            //var sim = new InputSimulator();
+            string steamPath = GetSteamExecutablePath(); // Registry based
 
-            if (!File.Exists(exePath))
-            {
-                MessageBox.Show("join_macro.exe not found!");
-                return;
-            }
-
-            var settings = Settings.Load();
-            string selectedServer = settings.ServerName;
-
+            // Step 1: Launch normally
             var psi = new ProcessStartInfo
             {
-                FileName = exePath,
-                Arguments = $"\"{selectedServer}\"", // pass server name in quotes
-                UseShellExecute = false,
-                CreateNoWindow = true,
-                WorkingDirectory = Application.StartupPath
+                FileName = steamPath,
+                Arguments = $"-applaunch 686810 -dev +connect {server.Ip}",
+                UseShellExecute = false
             };
-
             Process.Start(psi);
+
+            // Step 2: Wait 80s for loading and intro videos
+            await Task.Delay(80000);
+
+            // Step 3: Send ENTER to skip welcome screen
+            var sim = new InputSimulator();
+            FocusHellLetLooseWindow();
+            await Task.Delay(1000);
+            sim.Keyboard.KeyPress(VirtualKeyCode.RETURN);
+
+        }
+
+        private async Task<bool> WaitForPlayerThresholdAsync(string apiUrl, int threshold)
+        {
+            int timeoutMinutes = 60;
+            DateTime endTime = DateTime.Now.AddMinutes(timeoutMinutes);
+
+            while (DateTime.Now < endTime)
+            {
+                try
+                {
+                    string response = await httpClient.GetStringAsync(apiUrl);
+                    JObject json = JObject.Parse(response);
+                    int currentPlayers = json["result"]?["player_count"]?.Value<int>() ?? 0;
+
+                    if (currentPlayers >= threshold)
+                        return true;
+                }
+                catch
+                {
+                    // Optional: log or retry logic
+                }
+
+                await Task.Delay(10000); // check every 10s
+            }
+
+            return false;
+        }
+
+        private async Task StaggerDisconnectAsync()
+        {
+            Random rand = new Random();
+            int delay = rand.Next(30000, 60000); // between 30–60s
+            await Task.Delay(delay);
         }
 
         private void FocusHellLetLooseWindow()
@@ -187,47 +250,6 @@ namespace AutoSeed
             else
             {
                 UpdateStatus("Hell Let Loose process not found", Color.Red);
-            }
-        }
-
-        private async Task MonitorServerPlayerCount()
-        {
-            int currentPlayers = 0;
-
-            while (true)
-            {
-                try
-                {
-                    string response = await httpClient.GetStringAsync(apiUrl);
-                    JObject json = JObject.Parse(response);
-
-                    currentPlayers = json["result"]?["player_count"]?.Value<int>() ?? 0;
-
-                    Console.WriteLine($"Current player count: {currentPlayers}");
-
-                    if (currentPlayers >= playerThreshold)
-                    {
-                        KillGame();
-
-                        if (chkShutdown.Checked)
-                        {
-                            UpdateStatus("Threshold met. Shutting down...", Color.Red);
-                            ShutdownComputer();
-                        }
-                        else
-                        {
-                            UpdateStatus("Seeding complete. Staying online.", Color.DarkGreen);
-                        }
-
-                        break;
-                    }
-                }
-                catch (Exception ex)
-                {
-                    Console.WriteLine("Error checking server: " + ex.Message);
-                }
-
-                await Task.Delay(10000); // wait 10 seconds before next check
             }
         }
 
@@ -305,6 +327,7 @@ namespace AutoSeed
         private void ResetAppState()
         {
             btnStart.Enabled = true;
+            btnStart.Text = "Start Seeding";
             btnCancel.Enabled = false;
 
             UpdateStatus("Ready", Color.DarkGray);
@@ -335,31 +358,34 @@ namespace AutoSeed
         public void ApplyThemeFromSettings()
         {
             var settings = Settings.Load();
-
-            // Apply background color
             this.BackColor = ColorTranslator.FromHtml(settings.MainFormColor);
 
-            // Path to logo file
             string logoPath = Path.Combine(Application.StartupPath, settings.MainFormLogo);
 
             try
             {
-                // Force image reload by disposing the old one and reloading from disk
                 if (File.Exists(logoPath))
                 {
-                    // Dispose old image (important to release resources)
-                    if (picLogo.Image != null)
-                    {
-                        picLogo.Image.Dispose();
-                        picLogo.Image = null;
-                    }
+                    // Clear both images to ensure reset
+                    picLogo.Image?.Dispose();
+                    picLogo.Image = null;
+                    picLogo2.Image?.Dispose();
+                    picLogo2.Image = null;
 
-                    // Force garbage collection to fully release file lock (if needed)
                     GC.Collect();
                     GC.WaitForPendingFinalizers();
 
-                    // Load new image from file (not from embedded resource)
-                    picLogo.Image = Image.FromFile(logoPath);
+                    // Determine which logo to assign image to
+                    bool isAussie = settings.MainFormLogo == "Aussie_logo.jpg";
+
+                    if (isAussie)
+                    {
+                        picLogo2.Image = Image.FromFile(logoPath);
+                    }
+                    else
+                    {
+                        picLogo.Image = Image.FromFile(logoPath);
+                    }
                 }
                 else
                 {
@@ -390,10 +416,58 @@ namespace AutoSeed
             UpdateLogoForMode();
         }
 
-        private void Form1_Load(object sender, EventArgs e)
+        public class UpdateInfo
         {
-            RefreshFromSettings(); // This should call ApplyThemeFromSettings()
+            public string version { get; set; }
+            public string downloadUrl { get; set; }
+            public string releaseNotes { get; set; }
+        }
+
+        private async void Form1_Load(object sender, EventArgs e)
+        {
+            RefreshFromSettings();
             UpdateLogoForMode();
+
+            string[] args = Environment.GetCommandLineArgs();
+            if (args.Contains("--auto"))
+            {
+                await Task.Delay(1000); // wait for UI to fully load
+                await btnStart_Click(null, null); // begin seeding
+            }
+        }
+
+        private async void btnCheckForUpdates_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                using HttpClient client = new();
+                string json = await client.GetStringAsync("https://Ccallaway93.github.io/autoseed/version.json");
+
+                var data = JsonSerializer.Deserialize<UpdateInfo>(json);
+
+                if (Version.Parse(data.version) > Version.Parse(Application.ProductVersion))
+                {
+                    var result = MessageBox.Show(
+                        $"New version {data.version} available!\n\n{data.releaseNotes}\n\nWould you like to download it now?",
+                        "Update Available",
+                        MessageBoxButtons.YesNo,
+                        MessageBoxIcon.Information
+                    );
+
+                    if (result == DialogResult.Yes)
+                    {
+                        Process.Start(new ProcessStartInfo
+                        {
+                            FileName = data.downloadUrl,
+                            UseShellExecute = true
+                        });
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+
+            }
         }
     }
 }

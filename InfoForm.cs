@@ -41,19 +41,17 @@ namespace AutoSeed
 "\u2022 Australian Mode:\r\n" +
 "   - Uses Australian server, different times, logos, and time zone (AEST).\r\n" +
 "   - Toggles back and forth with Helios Mode.\r\n\r\n" +
-"\u2022 Macro Actions:\r\n" +
-"   1. Waits ~120 seconds for the game to fully load.\r\n" +
+"\u2022 Actions:\r\n" +
+"   1. Waits ~80 seconds for the game to fully load.\r\n" +
 "   2. Hits [ESC] to dismiss popups.\r\n" +
-"   3. Clicks the server browser.\r\n" +
-"   4. Clicks the search box, types your server name.\r\n" +
-"   5. Hits ENTER, navigates to the first result, and joins.\r\n\r\n" +
+"   3. Loads into the server.\r\n" +
 "\u2022 Player Monitoring:\r\n" +
 "   - Continuously polls server player count every 10 seconds.\r\n" +
-"   - Once the threshold is hit (e.g., 80 players), the game closes.\r\n" +
+"   - Once the threshold is hit (e.g., 60 players), the game slowly rolls you out to the next server.\r\n" +
 "   - Optionally shuts down your PC after seeding completes.\r\n\r\n" +
 "\u2022 Settings:\r\n" +
 "   - You can customize times, select your server, choose your region, and switch modes.\r\n" +
-"   - Settings are saved separately for Helios and Aussie modes.\r\n" +
+"   - Settings are saved separately for Aliance and Aussie modes.\r\n" +
 "   - Defaults can be reset per mode independently.\r\n\r\n" +
 "Thank you for using AutoSeed!";
 

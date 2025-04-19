@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using System.Windows.Forms;
 
 namespace AutoSeed
@@ -7,31 +8,28 @@ namespace AutoSeed
     {
         private Settings appSettings;
         private bool isAussieMode = false;
+        private const string TaskName = "AutoSeedWakeup";
+        private string ExePath => Application.ExecutablePath;
 
         public SettingsForm()
         {
             InitializeComponent();
             appSettings = Settings.Load();
+            btnToggleAutoSeed.Text = IsScheduledTaskCreated() ? "Disable Auto" : "Enable Auto";
             isAussieMode = appSettings.ServerName.Contains("GARRYBUSTERS") || appSettings.MainFormLogo == "Aussie_logo.jpg";
             UpdateModeButton();
 
-            // Set the time pickers
             timeWeekday.Value = DateTime.Today + appSettings.WeekdaySeedTime;
             timeWeekend.Value = DateTime.Today + appSettings.WeekendSeedTime;
 
-            // Populate the server dropdown
-            cmbServer.Items.Clear();
-            cmbServer.Items.AddRange(appSettings.ServerList.ToArray());
-
-            // Select the saved/default server if it's in the list
-            if (!string.IsNullOrEmpty(appSettings.ServerName) &&
-                cmbServer.Items.Contains(appSettings.ServerName))
+            if (appSettings.ServerList != null && appSettings.ServerList.Count > 0)
             {
-                cmbServer.SelectedItem = appSettings.ServerName;
+                string allServerNames = string.Join("\n", appSettings.ServerList.Select(server => $"• {server.Name}"));
+                lblServerDisplay.Text = $"\n{allServerNames}";
             }
-            else if (cmbServer.Items.Count > 0)
+            else
             {
-                cmbServer.SelectedIndex = 0; // fallback to first server if nothing is saved
+                lblServerDisplay.Text = "No servers configured.";
             }
         }
 
@@ -39,70 +37,48 @@ namespace AutoSeed
         {
             appSettings.WeekdaySeedTime = timeWeekday.Value.TimeOfDay;
             appSettings.WeekendSeedTime = timeWeekend.Value.TimeOfDay;
-            appSettings.ServerName = cmbServer.SelectedItem?.ToString() ?? "";
             appSettings.Save();
             this.DialogResult = DialogResult.OK;
             this.Close();
         }
 
-        private void btnEditServers_Click(object sender, EventArgs e)
-        {
-            using (var editForm = new EditServersForm())
-            {
-                editForm.ShowDialog();
-
-                // Reload updated server list after editing
-                cmbServer.Items.Clear();
-                cmbServer.Items.AddRange(Settings.Load().ServerList.ToArray());
-
-                if (!string.IsNullOrEmpty(appSettings.ServerName) &&
-                    cmbServer.Items.Contains(appSettings.ServerName))
-                {
-                    cmbServer.SelectedItem = appSettings.ServerName;
-                }
-            }
-        }
-
         private void btnSwitchMode_Click(object sender, EventArgs e)
         {
-            // Save current settings to the appropriate slot
             if (isAussieMode)
             {
                 appSettings.AussieSettings = CloneCurrentSettings();
             }
             else
             {
-                appSettings.HeliosSettings = CloneCurrentSettings();
+                appSettings.AllianceSettings = CloneCurrentSettings();
             }
 
-            // Switch mode
             isAussieMode = !isAussieMode;
-            appSettings.CurrentMode = isAussieMode ? "Aussie" : "Helios";
+            appSettings.CurrentMode = isAussieMode ? "Aussie" : "Aliance";
 
-            // Load mode-specific settings
             var modeSettings = isAussieMode
                 ? appSettings.AussieSettings ?? Settings.GetDefault("Aussie")
-                : appSettings.HeliosSettings ?? Settings.GetDefault("Helios");
+                : appSettings.AllianceSettings ?? Settings.GetDefault("Alliance");
 
             ApplySettings(modeSettings);
-
-            if (!appSettings.ServerList.Contains(modeSettings.ServerName))
-                appSettings.ServerList.Add(modeSettings.ServerName);
-
             appSettings.Save();
 
-            // Refresh UI
             timeWeekday.Value = DateTime.Today + modeSettings.WeekdaySeedTime;
             timeWeekend.Value = DateTime.Today + modeSettings.WeekendSeedTime;
-
-            cmbServer.Items.Clear();
-            cmbServer.Items.AddRange(appSettings.ServerList.ToArray());
-            cmbServer.SelectedItem = modeSettings.ServerName;
+            if (appSettings.ServerList != null && appSettings.ServerList.Count > 0)
+            {
+                string allServerNames = string.Join("\n", appSettings.ServerList.Select(server => $"• {server.Name}"));
+                lblServerDisplay.Text = $"\n{allServerNames}";
+            }
+            else
+            {
+                lblServerDisplay.Text = "No servers configured.";
+            }
 
             UpdateModeButton();
 
             MessageBox.Show(
-                isAussieMode ? "Australian Mode applied!" : "Helios Mode restored!",
+                isAussieMode ? "Australian Mode applied!" : "Alliance Mode restored!",
                 "Mode Switched",
                 MessageBoxButtons.OK,
                 MessageBoxIcon.Information
@@ -116,7 +92,7 @@ namespace AutoSeed
 
         private void ResetToDefaultsBasedOnMode()
         {
-            string mode = isAussieMode ? "Aussie" : "Helios";
+            string mode = isAussieMode ? "Aussie" : "Alliance";
             string abbreviation = GetTimeZoneAbbreviation(appSettings.TimeZoneId);
             var defaultSettings = Settings.GetDefault(mode);
 
@@ -131,19 +107,23 @@ namespace AutoSeed
             {
                 lblWeekdayTz.Text = $"({abbreviation})";
                 lblWeekendTz.Text = $"({abbreviation})";
-                appSettings.HeliosSettings = defaultSettings;
-                ApplySettings(appSettings.HeliosSettings);
+                appSettings.AllianceSettings = defaultSettings;
+                ApplySettings(appSettings.AllianceSettings);
             }
 
             appSettings.Save();
 
-            // Update UI with the newly reset values
             timeWeekday.Value = DateTime.Today + defaultSettings.WeekdaySeedTime;
             timeWeekend.Value = DateTime.Today + defaultSettings.WeekendSeedTime;
-
-            cmbServer.Items.Clear();
-            cmbServer.Items.AddRange(defaultSettings.ServerList.ToArray());
-            cmbServer.SelectedItem = defaultSettings.ServerName;
+            if (appSettings.ServerList != null && defaultSettings.ServerList.Count > 0)
+            {
+                string allServerNames = string.Join("\n", defaultSettings.ServerList.Select(server => $"• {server.Name}"));
+                lblServerDisplay.Text = $"\n{allServerNames}";
+            }
+            else
+            {
+                lblServerDisplay.Text = "No servers configured.";
+            }
 
             MessageBox.Show($"{mode} defaults restored.", "Defaults Reset", MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
@@ -152,7 +132,7 @@ namespace AutoSeed
         {
             if (btnSwitchMode != null)
             {
-                btnSwitchMode.Text = isAussieMode ? "Helios Mode" : "Aussie Mode";
+                btnSwitchMode.Text = isAussieMode ? "Alliance Mode" : "Aussie Mode";
             }
         }
 
@@ -162,8 +142,8 @@ namespace AutoSeed
             {
                 WeekdaySeedTime = timeWeekday.Value.TimeOfDay,
                 WeekendSeedTime = timeWeekend.Value.TimeOfDay,
-                ServerName = cmbServer.SelectedItem?.ToString() ?? "",
-                ServerList = new List<string>(cmbServer.Items.Cast<string>()),
+                ServerName = appSettings.ServerName,
+                ServerList = appSettings.ServerList,
                 MainFormColor = appSettings.MainFormColor,
                 MainFormLogo = appSettings.MainFormLogo,
                 TimeZoneId = appSettings.TimeZoneId
@@ -175,23 +155,27 @@ namespace AutoSeed
             timeWeekday.Value = DateTime.Today + s.WeekdaySeedTime;
             timeWeekend.Value = DateTime.Today + s.WeekendSeedTime;
 
-            cmbServer.Items.Clear();
-            cmbServer.Items.AddRange(s.ServerList.ToArray());
-            cmbServer.SelectedItem = s.ServerName;
-
-            // Apply time zone and UI settings to appSettings
             appSettings.WeekdaySeedTime = s.WeekdaySeedTime;
             appSettings.WeekendSeedTime = s.WeekendSeedTime;
             appSettings.ServerName = s.ServerName;
-            appSettings.ServerList = new List<string>(s.ServerList);
+            appSettings.ServerList = s.ServerList;
             appSettings.MainFormColor = s.MainFormColor;
             appSettings.MainFormLogo = s.MainFormLogo;
             appSettings.TimeZoneId = s.TimeZoneId;
 
-            // Use the one being applied (s.TimeZoneId), not appSettings
             string abbreviation = GetTimeZoneAbbreviation(s.TimeZoneId);
             lblWeekdayTz.Text = $"({abbreviation})";
             lblWeekendTz.Text = $"({abbreviation})";
+            // NEW: Display all server names from the list
+            if (s.ServerList != null && s.ServerList.Count > 0)
+            {
+                string allServerNames = string.Join("\n", s.ServerList.Select(server => $"• {server.Name}"));
+                lblServerDisplay.Text = $"\n{allServerNames}";
+            }
+            else
+            {
+                lblServerDisplay.Text = "No servers configured.";
+            }
         }
 
         private string GetTimeZoneAbbreviation(string timeZoneId)
@@ -207,6 +191,143 @@ namespace AutoSeed
         private void btnCancel_Click(object sender, EventArgs e)
         {
             this.Close();
+        }
+
+        private void btnToggleAutoSeed_Click(object sender, EventArgs e)
+        {
+            if (IsScheduledTaskCreated())
+            {
+                DeleteScheduledTask();
+                MessageBox.Show("Auto-start task removed.", "Disabled", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                btnToggleAutoSeed.Text = "Enable Auto";
+            }
+            else
+            {
+                CreateScheduledTask();
+
+                // ✅ Show task details
+                string taskDetails = GetScheduledTaskDetails();
+                MessageBox.Show(
+                    $"Auto-start enabled!\n\n{taskDetails}\n\nDaily auto seed should now be setup with scheduled task.\n\nPlease make sure your computer is not asleep and you are logged in during the running time or auto seed will not work.",
+                    $"Scheduled Task Created",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Information
+                );
+
+                btnToggleAutoSeed.Text = "Disable Auto";
+            }
+        }
+
+        private void CreateScheduledTask()
+        {
+            string triggerTime = "06:15"; // You can make this dynamic later
+
+            //string args = $"/Create /F /TN \"{ TaskName}\" /SC DAILY /ST {triggerTime} /RL HIGHEST /TR \"'{ExePath}' --auto\"";
+            string args = $"/Create /F /SC DAILY /TN \"{TaskName}\" /TR \"\"\"{ExePath}\" --auto\"\" /ST {triggerTime}";
+
+            var psi = new ProcessStartInfo
+            {
+                FileName = "schtasks",
+                Arguments = args,
+                UseShellExecute = false,
+                RedirectStandardOutput = true,
+                RedirectStandardError = true,
+                CreateNoWindow = true
+            };
+
+            using (var proc = Process.Start(psi))
+            {
+                string output = proc.StandardOutput.ReadToEnd();
+                string error = proc.StandardError.ReadToEnd();
+                proc.WaitForExit();
+
+                if (proc.ExitCode != 0)
+                {
+                    MessageBox.Show($"Failed to create task:\n\n{error}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+                else
+                {
+                    MessageBox.Show("Auto-start task created successfully!", "Task Created", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+            }
+        }
+
+        private void DeleteScheduledTask()
+        {
+            string args = $"/Delete /F /TN \"{ TaskName}\"";
+
+            ProcessStartInfo psi = new ProcessStartInfo("schtasks", args)
+            {
+                UseShellExecute = false,
+                RedirectStandardOutput = true,
+                RedirectStandardError = true,
+                CreateNoWindow = true
+            };
+
+            using (var proc = Process.Start(psi))
+            {
+                proc.WaitForExit();
+                // no need to handle failure (task may not exist)
+            }
+        }
+
+        private bool IsScheduledTaskCreated()
+        {
+            string args = $"/Query /TN \"{TaskName}\"";
+
+            ProcessStartInfo psi = new ProcessStartInfo("schtasks", args)
+            {
+                UseShellExecute = false,
+                RedirectStandardOutput = true,
+                RedirectStandardError = true,
+                CreateNoWindow = true
+            };
+
+            using (var proc = Process.Start(psi))
+            {
+                proc.WaitForExit();
+                return proc.ExitCode == 0; // 0 = success (task exists), non-zero = error
+            }
+        }
+
+        private string GetScheduledTaskDetails()
+        {
+            var psi = new ProcessStartInfo
+            {
+                FileName = "schtasks",
+                Arguments = $"/Query /TN \"{TaskName}\" /V /FO LIST",
+                UseShellExecute = false,
+                RedirectStandardOutput = true,
+                RedirectStandardError = true,
+                CreateNoWindow = true
+            };
+
+            using (var proc = Process.Start(psi))
+            {
+                string output = proc.StandardOutput.ReadToEnd();
+                proc.WaitForExit();
+
+                if (proc.ExitCode != 0)
+                    return "Unable to retrieve task details.";
+
+                var lines = output.Split(new[] { "\r\n", "\n" }, StringSplitOptions.RemoveEmptyEntries);
+
+                var keysToInclude = new[]
+                {
+            "Folder:",
+            "HostName:",
+            "TaskName:",
+            "Next Run Time:",
+            "Status:",
+            "Logon Mode:",
+        };
+
+                var filtered = lines
+                    .Where(line => keysToInclude.Any(key => line.StartsWith(key)))
+                    .ToList();
+
+                return string.Join(Environment.NewLine, filtered);
+            }
         }
     }
 }

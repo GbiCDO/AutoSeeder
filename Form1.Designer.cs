@@ -40,6 +40,7 @@
             picLogo = new PictureBox();
             picLogo2 = new PictureBox();
             picInfo = new PictureBox();
+            btnCheckForUpdates = new Button();
             ((System.ComponentModel.ISupportInitialize)picSettings).BeginInit();
             ((System.ComponentModel.ISupportInitialize)picLogo).BeginInit();
             ((System.ComponentModel.ISupportInitialize)picLogo2).BeginInit();
@@ -51,7 +52,7 @@
             lblTitle.AutoSize = true;
             lblTitle.Font = new Font("Segoe UI", 10F);
             lblTitle.ForeColor = SystemColors.Control;
-            lblTitle.Location = new Point(64, 474);
+            lblTitle.Location = new Point(64, 515);
             lblTitle.Name = "lblTitle";
             lblTitle.Size = new Size(526, 19);
             lblTitle.TabIndex = 0;
@@ -67,7 +68,7 @@
             btnStart.TabIndex = 1;
             btnStart.Text = "Start Seeding";
             btnStart.UseVisualStyleBackColor = true;
-            btnStart.Click += btnStart_Click;
+            btnStart.Click += btnStart_Click_Wrapper;
             // 
             // chkShutdown
             // 
@@ -130,50 +131,60 @@
             lblCurrentServer.AutoSize = true;
             lblCurrentServer.Font = new Font("Segoe UI", 10F, FontStyle.Italic);
             lblCurrentServer.ForeColor = Color.DimGray;
-            lblCurrentServer.Location = new Point(195, 388);
+            lblCurrentServer.Location = new Point(64, 388);
             lblCurrentServer.Name = "lblCurrentServer";
             lblCurrentServer.Size = new Size(169, 19);
             lblCurrentServer.TabIndex = 0;
             lblCurrentServer.Text = "Current server: (loading...)";
-            //
-            // picLogo (Helios)
-            //
-            picLogo = new PictureBox();
-            picLogo.Image = Image.FromFile("Helios Logo TRANSPARENT.png");
+            // 
+            // picLogo
+            // 
             picLogo.Location = new Point(195, 52);
+            picLogo.Name = "picLogo";
             picLogo.Size = new Size(225, 218);
             picLogo.SizeMode = PictureBoxSizeMode.Zoom;
-            picLogo.Visible = true;
-            this.Controls.Add(picLogo);
-            //
-            // picLogo2 (Aussie)
-            //
-            picLogo2 = new PictureBox();
-            picLogo2.Image = Image.FromFile("Aussie_logo.jpg");
+            picLogo.TabIndex = 0;
+            picLogo.TabStop = false;
+            // 
+            // picLogo2
+            // 
             picLogo2.Location = new Point(195, 52);
+            picLogo2.Name = "picLogo2";
             picLogo2.Size = new Size(225, 218);
             picLogo2.SizeMode = PictureBoxSizeMode.Zoom;
+            picLogo2.TabIndex = 1;
+            picLogo2.TabStop = false;
             picLogo2.Visible = false;
-            this.Controls.Add(picLogo2);
             // 
             // picInfo
             // 
             picInfo.Anchor = AnchorStyles.Bottom | AnchorStyles.Left;
             picInfo.Cursor = Cursors.Hand;
             picInfo.Image = Properties.Resources.info_icon;
-            picInfo.Location = new Point(12, 466);
+            picInfo.Location = new Point(12, 515);
             picInfo.Name = "picInfo";
             picInfo.Size = new Size(24, 24);
             picInfo.SizeMode = PictureBoxSizeMode.Zoom;
             picInfo.TabIndex = 2;
             picInfo.TabStop = false;
             // 
+            // btnCheckForUpdates
+            // 
+            btnCheckForUpdates.Location = new Point(195, 468);
+            btnCheckForUpdates.Name = "btnCheckForUpdates";
+            btnCheckForUpdates.Size = new Size(225, 34);
+            btnCheckForUpdates.TabIndex = 7;
+            btnCheckForUpdates.Text = "Check For Updates";
+            btnCheckForUpdates.UseVisualStyleBackColor = true;
+            btnCheckForUpdates.Click += btnCheckForUpdates_Click;
+            // 
             // Form1
             // 
             AutoScaleDimensions = new SizeF(7F, 17F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.FromArgb(24, 25, 38);
-            ClientSize = new Size(619, 502);
+            ClientSize = new Size(619, 543);
+            Controls.Add(btnCheckForUpdates);
             Controls.Add(picInfo);
             Controls.Add(picLogo2);
             Controls.Add(lblCurrentServer);
@@ -192,7 +203,7 @@
             Name = "Form1";
             SizeGripStyle = SizeGripStyle.Show;
             StartPosition = FormStartPosition.CenterScreen;
-            Text = "Helios AutoSeeder";
+            Text = "AutoSeeder";
             Load += Form1_Load;
             ((System.ComponentModel.ISupportInitialize)picSettings).EndInit();
             ((System.ComponentModel.ISupportInitialize)picLogo).EndInit();
@@ -214,6 +225,6 @@
         private PictureBox picLogo;
         private PictureBox picLogo2;
         private PictureBox picInfo;
-
+        private Button btnCheckForUpdates;
     }
 }

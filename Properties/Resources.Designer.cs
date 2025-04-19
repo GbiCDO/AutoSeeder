@@ -73,6 +73,16 @@ namespace AutoSeed.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap AutoSeeder {
+            get {
+                object obj = ResourceManager.GetObject("AutoSeeder", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap CogWheel {
             get {
                 object obj = ResourceManager.GetObject("CogWheel", resourceCulture);

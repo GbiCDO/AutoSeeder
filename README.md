@@ -1,6 +1,6 @@
-﻿Helios AutoSeeder
+﻿AutoSeeder
 
-Helios AutoSeeder is a Windows desktop application built with C# WinForms that automates the process of joining and seeding Hell Let Loose servers at scheduled times. It includes time-based launching, macro-based server joining, and dynamic settings for multiple regions (Helios and Australian modes).
+AutoSeeder is a Windows desktop application built with C# WinForms that automates the process of joining and seeding Hell Let Loose servers at scheduled times. It includes time-based launching, macro-based server joining, and dynamic settings for multiple regions (Aliance and Australian modes).
 
 Features
 
@@ -16,7 +16,7 @@ Override mode to start immediately
 
 🌍 Regional Modes
 
-Helios Mode (Default): Standard NA/EU settings
+Aliance Mode (Default): Standard NA/EU settings
 
 Australian Mode:
 
@@ -26,7 +26,7 @@ Alternate time zone (AEST)
 
 ⚖️ Macro-Based Server Joiner
 
-Waits 90 seconds for the game to fully load
+Waits 80 seconds for the game to fully load
 
 Automatically:
 
@@ -45,10 +45,6 @@ Exits the game and optionally shuts down the PC when a threshold is reached (e.g
 ⚙️ Settings Interface
 
 Set different seed times for weekdays and weekends
-
-Manage and edit multiple servers
-
-Save separate configurations per mode
 
 Restore defaults independently for each region
 
@@ -84,15 +80,9 @@ Windows 10/11
 
 Steam installed
 
-Python + PyAutoGUI (if using macro method)
-
 Administrator permissions (for computer shutdown functionality)
 
-Roadmap Ideas
-
 In-app time zone preview
-
-Multiple profile support
 
 Encrypted settings or secure mode for community builds
 
