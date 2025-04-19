@@ -20,7 +20,7 @@ namespace AutoSeed
 
             // Safe: add the click handler in user code
             this.picInfo.Click += (s, e) => new InfoForm().ShowDialog();
-            const string CURRENT_VERSION = "1.1.0";
+            const string CURRENT_VERSION = "1.0.0";
             this.Text = $"AutoSeeder - Version: {CURRENT_VERSION}";
         }
 
@@ -435,10 +435,16 @@ namespace AutoSeed
             try
             {
                 using HttpClient client = new HttpClient();
-                string json = await client.GetStringAsync(versionUrl);
+                string json = await client.GetStringAsync(versionUrl); 
 
                 var versionInfo = JsonSerializer.Deserialize<VersionInfo>(json);
-                Version currentVersion = new Version(Application.ProductVersion);
+                Version currentVersion = Version.Parse(
+                    new string(Application.ProductVersion
+                        .TakeWhile(c => char.IsDigit(c) || c == '.')
+                        .ToArray())
+                );
+                MessageBox.Show("test");
+                MessageBox.Show(currentVersion.ToString());
                 Version latestVersion = new Version(versionInfo.version);
 
                 if (latestVersion > currentVersion)
