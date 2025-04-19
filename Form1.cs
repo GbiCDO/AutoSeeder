@@ -443,8 +443,6 @@ namespace AutoSeed
                         .TakeWhile(c => char.IsDigit(c) || c == '.')
                         .ToArray())
                 );
-                MessageBox.Show("test");
-                MessageBox.Show(currentVersion.ToString());
                 Version latestVersion = new Version(versionInfo.version);
 
                 if (latestVersion > currentVersion)
