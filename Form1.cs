@@ -416,13 +416,6 @@ namespace AutoSeed
             UpdateLogoForMode();
         }
 
-        public class UpdateInfo
-        {
-            public string version { get; set; }
-            public string downloadUrl { get; set; }
-            public string releaseNotes { get; set; }
-        }
-
         private async void Form1_Load(object sender, EventArgs e)
         {
             RefreshFromSettings();
@@ -438,27 +431,27 @@ namespace AutoSeed
 
         private async void btnCheckForUpdates_Click(object sender, EventArgs e)
         {
+            string versionUrl = "https://yourusername.github.io/AutoSeed/version.json";
             try
             {
-                using HttpClient client = new();
-                string json = await client.GetStringAsync("https://Ccallaway93.github.io/autoseed/version.json");
+                using HttpClient client = new HttpClient();
+                string json = await client.GetStringAsync(versionUrl);
 
-                var data = JsonSerializer.Deserialize<UpdateInfo>(json);
+                var versionInfo = JsonSerializer.Deserialize<VersionInfo>(json);
+                Version currentVersion = new Version(Application.ProductVersion);
+                Version latestVersion = new Version(versionInfo.version);
 
-                if (Version.Parse(data.version) > Version.Parse(Application.ProductVersion))
+                if (latestVersion > currentVersion)
                 {
-                    var result = MessageBox.Show(
-                        $"New version {data.version} available!\n\n{data.releaseNotes}\n\nWould you like to download it now?",
+                    if (MessageBox.Show(
+                        $"A new version ({versionInfo.version}) is available!\n\nChanges:\n{versionInfo.changelog}\n\nWould you like to update now?",
                         "Update Available",
                         MessageBoxButtons.YesNo,
-                        MessageBoxIcon.Information
-                    );
-
-                    if (result == DialogResult.Yes)
+                        MessageBoxIcon.Information) == DialogResult.Yes)
                     {
                         Process.Start(new ProcessStartInfo
                         {
-                            FileName = data.downloadUrl,
+                            FileName = versionInfo.downloadUrl,
                             UseShellExecute = true
                         });
                     }
@@ -466,8 +459,15 @@ namespace AutoSeed
             }
             catch (Exception ex)
             {
-
+                MessageBox.Show("Failed to check for updates: " + ex.Message);
             }
+        }
+
+        public class VersionInfo
+        {
+            public string version { get; set; }
+            public string changelog { get; set; }
+            public string downloadUrl { get; set; }
         }
     }
 }
