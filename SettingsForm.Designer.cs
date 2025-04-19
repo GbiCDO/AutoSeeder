@@ -58,7 +58,7 @@
             // lblServer
             // 
             lblServer.AutoSize = true;
-            lblServer.Location = new Point(111, 96);
+            lblServer.Location = new Point(106, 137);
             lblServer.Name = "lblServer";
             lblServer.Size = new Size(56, 19);
             lblServer.TabIndex = 4;
@@ -86,7 +86,7 @@
             // 
             // btnSave
             // 
-            btnSave.Location = new Point(28, 174);
+            btnSave.Location = new Point(28, 245);
             btnSave.Name = "btnSave";
             btnSave.Size = new Size(210, 37);
             btnSave.TabIndex = 6;
@@ -95,7 +95,7 @@
             // 
             // btnCancel
             // 
-            btnCancel.Location = new Point(284, 174);
+            btnCancel.Location = new Point(348, 245);
             btnCancel.Name = "btnCancel";
             btnCancel.Size = new Size(210, 37);
             btnCancel.TabIndex = 7;
@@ -106,7 +106,7 @@
             // 
             btnSwitchMode.Location = new Point(368, 9);
             btnSwitchMode.Name = "btnSwitchMode";
-            btnSwitchMode.Size = new Size(126, 30);
+            btnSwitchMode.Size = new Size(190, 30);
             btnSwitchMode.TabIndex = 0;
             btnSwitchMode.Text = "Aussie Mode";
             btnSwitchMode.Click += btnSwitchMode_Click;
@@ -115,7 +115,7 @@
             // 
             btnResetDefaults.Location = new Point(368, 45);
             btnResetDefaults.Name = "btnResetDefaults";
-            btnResetDefaults.Size = new Size(126, 30);
+            btnResetDefaults.Size = new Size(190, 30);
             btnResetDefaults.TabIndex = 0;
             btnResetDefaults.Text = "Default Settings";
             btnResetDefaults.Click += btnResetDefaults_Click;
@@ -142,7 +142,7 @@
             // 
             lblServerDisplay.AutoSize = true;
             lblServerDisplay.Font = new Font("Segoe UI", 9F, FontStyle.Italic);
-            lblServerDisplay.Location = new Point(198, 96);
+            lblServerDisplay.Location = new Point(198, 140);
             lblServerDisplay.Name = "lblServerDisplay";
             lblServerDisplay.Size = new Size(0, 15);
             lblServerDisplay.TabIndex = 0;
@@ -151,7 +151,7 @@
             // 
             btnToggleAutoSeed.Location = new Point(368, 80);
             btnToggleAutoSeed.Name = "btnToggleAutoSeed";
-            btnToggleAutoSeed.Size = new Size(126, 31);
+            btnToggleAutoSeed.Size = new Size(190, 31);
             btnToggleAutoSeed.TabIndex = 8;
             btnToggleAutoSeed.Text = "Auto-Seed";
             btnToggleAutoSeed.UseVisualStyleBackColor = true;
@@ -159,7 +159,7 @@
             // 
             // SettingsForm
             // 
-            ClientSize = new Size(551, 240);
+            ClientSize = new Size(636, 319);
             Controls.Add(btnToggleAutoSeed);
             Controls.Add(lblServerDisplay);
             Controls.Add(lblWeekdayTz);

@@ -444,7 +444,7 @@ namespace AutoSeed
                 if (latestVersion > currentVersion)
                 {
                     if (MessageBox.Show(
-                        $"A new version ({versionInfo.version}) is available!\n\nChanges:\n{versionInfo.changelog}\n\nWould you like to update now?",
+                        $"A new version ({versionInfo.version}) is available!\n\nChanges:\n{versionInfo.releaseNotes}",
                         "Update Available",
                         MessageBoxButtons.YesNo,
                         MessageBoxIcon.Information) == DialogResult.Yes)
@@ -466,8 +466,8 @@ namespace AutoSeed
         public class VersionInfo
         {
             public string version { get; set; }
-            public string changelog { get; set; }
             public string downloadUrl { get; set; }
+            public string releaseNotes { get; set; }
         }
     }
 }
