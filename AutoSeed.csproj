@@ -49,12 +49,6 @@
     <None Update="CogWheel.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Update="Helios Logo TRANSPARENT.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Update="helios.ico">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
     <None Update="info_icon.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>

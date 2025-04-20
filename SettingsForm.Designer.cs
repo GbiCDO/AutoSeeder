@@ -49,7 +49,7 @@
             // lblWeekend
             // 
             lblWeekend.AutoSize = true;
-            lblWeekend.Location = new Point(28, 57);
+            lblWeekend.Location = new Point(28, 71);
             lblWeekend.Name = "lblWeekend";
             lblWeekend.Size = new Size(134, 19);
             lblWeekend.TabIndex = 2;
@@ -68,20 +68,20 @@
             // 
             timeWeekday.CustomFormat = "hh:mm tt";
             timeWeekday.Format = DateTimePickerFormat.Custom;
-            timeWeekday.Location = new Point(198, 12);
+            timeWeekday.Location = new Point(167, 12);
             timeWeekday.Name = "timeWeekday";
             timeWeekday.ShowUpDown = true;
-            timeWeekday.Size = new Size(120, 25);
+            timeWeekday.Size = new Size(151, 25);
             timeWeekday.TabIndex = 1;
             // 
             // timeWeekend
             // 
             timeWeekend.CustomFormat = "hh:mm tt";
             timeWeekend.Format = DateTimePickerFormat.Custom;
-            timeWeekend.Location = new Point(198, 52);
+            timeWeekend.Location = new Point(168, 65);
             timeWeekend.Name = "timeWeekend";
             timeWeekend.ShowUpDown = true;
-            timeWeekend.Size = new Size(120, 25);
+            timeWeekend.Size = new Size(150, 25);
             timeWeekend.TabIndex = 3;
             // 
             // btnSave
@@ -104,7 +104,7 @@
             // 
             // btnSwitchMode
             // 
-            btnSwitchMode.Location = new Point(368, 9);
+            btnSwitchMode.Location = new Point(391, 9);
             btnSwitchMode.Name = "btnSwitchMode";
             btnSwitchMode.Size = new Size(190, 30);
             btnSwitchMode.TabIndex = 0;
@@ -113,7 +113,7 @@
             // 
             // btnResetDefaults
             // 
-            btnResetDefaults.Location = new Point(368, 45);
+            btnResetDefaults.Location = new Point(391, 47);
             btnResetDefaults.Name = "btnResetDefaults";
             btnResetDefaults.Size = new Size(190, 30);
             btnResetDefaults.TabIndex = 0;
@@ -123,7 +123,7 @@
             // lblWeekdayTz
             // 
             lblWeekdayTz.AutoSize = true;
-            lblWeekdayTz.Location = new Point(321, 12);
+            lblWeekdayTz.Location = new Point(324, 12);
             lblWeekdayTz.Name = "lblWeekdayTz";
             lblWeekdayTz.Size = new Size(31, 19);
             lblWeekdayTz.TabIndex = 0;
@@ -132,7 +132,7 @@
             // lblWeekendTz
             // 
             lblWeekendTz.AutoSize = true;
-            lblWeekendTz.Location = new Point(321, 52);
+            lblWeekendTz.Location = new Point(324, 65);
             lblWeekendTz.Name = "lblWeekendTz";
             lblWeekendTz.Size = new Size(31, 19);
             lblWeekendTz.TabIndex = 1;
@@ -149,7 +149,7 @@
             // 
             // btnToggleAutoSeed
             // 
-            btnToggleAutoSeed.Location = new Point(368, 80);
+            btnToggleAutoSeed.Location = new Point(391, 83);
             btnToggleAutoSeed.Name = "btnToggleAutoSeed";
             btnToggleAutoSeed.Size = new Size(190, 31);
             btnToggleAutoSeed.TabIndex = 8;
@@ -159,7 +159,7 @@
             // 
             // SettingsForm
             // 
-            ClientSize = new Size(636, 319);
+            ClientSize = new Size(593, 309);
             Controls.Add(btnToggleAutoSeed);
             Controls.Add(lblServerDisplay);
             Controls.Add(lblWeekdayTz);

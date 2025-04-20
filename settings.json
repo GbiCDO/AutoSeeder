@@ -2,35 +2,26 @@
     "WeekdaySeedTime": "10:00:00",
     "WeekendSeedTime": "10:00:00",
     "TimeZoneId": "Eastern Standard Time",
-    "ServerName": "Helios | Lvl 25+ | Discord.gg/newhelios",
+    "ServerName": "=ROTN= | discord.gg/rangersofthenorth | LVL 25+",
     "MainFormColor": "#181926",
-    "MainFormLogo": "Helios Logo TRANSPARENT.png",
+    "MainFormLogo": "AutoSeeder.png",
     "ServerList": [
         {
-            "Name": "Helios | Lvl 25+ | Discord.gg/newhelios",
-            "ApiUrl": "http://207.244.232.58:7010/api/get_public_info"
+            "Name": "=ROTN= | discord.gg/rangersofthenorth | LVL 25+",
+            "Ip": "92.118.18.90:7777",
+            "ApiUrl": "https://rotn-stats.crcon.cc/api/get_public_info"
         },
         {
-            "Name": "GARRYBUSTERS | discord.gg/garrybusters",
-            "ApiUrl": "http://192.169.95.74:7010/api/get_public_info"
+            "Name": "Bakers Dozen [B13] | US East | discord.gg/b13",
+            "Ip": "192.169.86.54:7777",
+            "ApiUrl": "https://b13stats.brewdawgs.vip/api/get_public_info"
+        },
+        {
+            "Name": "Helios | Lvl 25+ | Discord.gg/newhelios",
+            "Ip": "192.169.86.109:7787",
+            "ApiUrl": "http://207.244.232.58:7010/api/get_public_info"
         }
     ],
-    "CurrentMode": "Helios",
-    "HeliosSettings": {
-        "WeekdaySeedTime": "10:00:00",
-        "WeekendSeedTime": "10:00:00",
-        "TimeZoneId": "Eastern Standard Time",
-        "ServerName": "Helios | Lvl 25+ | Discord.gg/newhelios",
-        "MainFormColor": "#181926",
-        "MainFormLogo": "Helios Logo TRANSPARENT.png",
-        "ServerList": [
-            {
-                "Name": "Helios | Lvl 25+ | Discord.gg/newhelios",
-                "Ip": "192.169.86.109:7787",
-                "ApiUrl": "http://207.244.232.58:7010/api/get_public_info"
-            }
-        ]
-    },
     "AussieSettings": {
         "WeekdaySeedTime": "06:30:00",
         "WeekendSeedTime": "06:30:00",
@@ -50,12 +41,12 @@
         "WeekdaySeedTime": "10:00:00",
         "WeekendSeedTime": "10:00:00",
         "TimeZoneId": "Eastern Standard Time",
-        "ServerName": "=ROTN= | discord.gg/rangersofthenorth | LVL 25+ AT PEAK HOURS",
+        "ServerName": "=ROTN= | discord.gg/rangersofthenorth | LVL 25+",
         "MainFormColor": "#181926",
         "MainFormLogo": "AutoSeeder.png",
         "ServerList": [
             {
-                "Name": "=ROTN= | discord.gg/rangersofthenorth | LVL 25+ AT PEAK HOURS",
+                "Name": "=ROTN= | discord.gg/rangersofthenorth | LVL 25+",
                 "Ip": "92.118.18.90:7777",
                 "ApiUrl": "https://rotn-stats.crcon.cc/api/get_public_info"
             },
