@@ -124,7 +124,7 @@
             // 
             btnResetDefaults.Anchor = AnchorStyles.Top | AnchorStyles.Right;
             btnResetDefaults.AutoSize = true;
-            btnResetDefaults.Location = new Point(502, 64);
+            btnResetDefaults.Location = new Point(502, 54);
             btnResetDefaults.Name = "btnResetDefaults";
             btnResetDefaults.Size = new Size(190, 30);
             btnResetDefaults.TabIndex = 0;
@@ -164,7 +164,7 @@
             // 
             btnToggleAutoSeed.Anchor = AnchorStyles.Top | AnchorStyles.Right;
             btnToggleAutoSeed.AutoSize = true;
-            btnToggleAutoSeed.Location = new Point(502, 124);
+            btnToggleAutoSeed.Location = new Point(502, 102);
             btnToggleAutoSeed.Name = "btnToggleAutoSeed";
             btnToggleAutoSeed.Size = new Size(190, 31);
             btnToggleAutoSeed.TabIndex = 8;
