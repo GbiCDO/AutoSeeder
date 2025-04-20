@@ -460,6 +460,10 @@ namespace AutoSeed
                         });
                     }
                 }
+                else
+                {
+                    MessageBox.Show("You are up to date!");
+                }
             }
             catch (Exception ex)
             {
