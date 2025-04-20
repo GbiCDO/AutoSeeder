@@ -41,7 +41,7 @@
 
   <ItemGroup>
     <None Update="Aussie_logo.jpg">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Update="AutoSeeder.ico">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
