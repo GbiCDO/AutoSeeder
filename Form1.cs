@@ -20,7 +20,7 @@ namespace AutoSeed
 
             // Safe: add the click handler in user code
             this.picInfo.Click += (s, e) => new InfoForm().ShowDialog();
-            const string CURRENT_VERSION = "1.0.0";
+            const string CURRENT_VERSION = "1.0.1";
             this.Text = $"AutoSeeder - Version: {CURRENT_VERSION}";
         }
 

@@ -206,15 +206,6 @@ namespace AutoSeed
             {
                 CreateScheduledTask();
 
-                // ✅ Show task details
-                string taskDetails = GetScheduledTaskDetails();
-                MessageBox.Show(
-                    $"Auto-start enabled!\n\n{taskDetails}\n\nDaily auto seed should now be setup with scheduled task.\n\nPlease make sure your computer is not asleep and you are logged in during the running time or auto seed will not work.",
-                    $"Scheduled Task Created",
-                    MessageBoxButtons.OK,
-                    MessageBoxIcon.Information
-                );
-
                 btnToggleAutoSeed.Text = "Disable Auto";
             }
         }
@@ -228,7 +219,7 @@ namespace AutoSeed
             // Ensure the path is wrapped in quotes in case it contains spaces (like Program Files)
             string safeExePath = $"\"{exePath}\"";
 
-            string args = $"/Create /SC DAILY /TN \"{TaskName}\" /TR {safeExePath} /ST 06:30 /RL HIGHEST /F";
+            string args = $"/Create /SC DAILY /TN \"{TaskName}\" /TR \"{safeExePath}\" /ST {triggerTime} /F";
 
             ProcessStartInfo psi = new ProcessStartInfo("schtasks", args)
             {
@@ -251,6 +242,15 @@ namespace AutoSeed
                 else
                 {
                     MessageBox.Show("Auto-seeding task created successfully!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+                    // Show task details
+                    string taskDetails = GetScheduledTaskDetails();
+                    MessageBox.Show(
+                        $"Auto-start enabled!\n\n{taskDetails}\n\nDaily auto seed should now be setup with scheduled task.\n\nPlease make sure your computer is not asleep and you are logged in during the running time or auto seed will not work.",
+                        $"Scheduled Task Created",
+                        MessageBoxButtons.OK,
+                        MessageBoxIcon.Information
+                    );
                 }
             }
         }
