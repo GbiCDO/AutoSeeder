@@ -13,14 +13,13 @@ namespace AutoSeed
 {
     public partial class Form1 : Form
     {
-
+        const string CURRENT_VERSION = "1.0.1";
         public Form1()
         {
             InitializeComponent();
 
             // Safe: add the click handler in user code
             this.picInfo.Click += (s, e) => new InfoForm().ShowDialog();
-            const string CURRENT_VERSION = "1.0.1";
             this.Text = $"AutoSeeder - Version: {CURRENT_VERSION}";
         }
 
@@ -444,6 +443,9 @@ namespace AutoSeed
                         .ToArray())
                 );
                 Version latestVersion = new Version(versionInfo.version);
+
+                MessageBox.Show(latestVersion.ToString());
+                MessageBox.Show(currentVersion.ToString());
 
                 if (latestVersion > currentVersion)
                 {

@@ -14,7 +14,7 @@ namespace AutoSeed
         {
             InitializeComponent();
             appSettings = Settings.Load();
-            btnToggleAutoSeed.Text = IsScheduledTaskCreated() ? "Disable Auto" : "Enable Auto";
+            //btnToggleAutoSeed.Text = IsScheduledTaskCreated() ? "Disable Auto" : "Enable Auto";
             isAussieMode = appSettings.ServerName.Contains("GARRYBUSTERS") || appSettings.MainFormLogo == "Aussie_logo.jpg";
             this.AutoScaleMode = AutoScaleMode.Font;
             this.Font = new Font("Segoe UI", 9F, FontStyle.Regular);
@@ -200,13 +200,13 @@ namespace AutoSeed
             {
                 DeleteScheduledTask();
                 MessageBox.Show("Auto-start task removed.", "Disabled", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                btnToggleAutoSeed.Text = "Enable Auto";
+                //btnToggleAutoSeed.Text = "Enable Auto";
             }
             else
             {
                 CreateScheduledTask();
 
-                btnToggleAutoSeed.Text = "Disable Auto";
+                //btnToggleAutoSeed.Text = "Disable Auto";
             }
         }
 

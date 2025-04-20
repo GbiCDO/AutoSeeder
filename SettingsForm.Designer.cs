@@ -34,7 +34,6 @@
             lblWeekdayTz = new Label();
             lblWeekendTz = new Label();
             lblServerDisplay = new Label();
-            btnToggleAutoSeed = new Button();
             SuspendLayout();
             // 
             // lblWeekday
@@ -160,22 +159,9 @@
             lblServerDisplay.Size = new Size(0, 15);
             lblServerDisplay.TabIndex = 0;
             // 
-            // btnToggleAutoSeed
-            // 
-            btnToggleAutoSeed.Anchor = AnchorStyles.Top | AnchorStyles.Right;
-            btnToggleAutoSeed.AutoSize = true;
-            btnToggleAutoSeed.Location = new Point(502, 102);
-            btnToggleAutoSeed.Name = "btnToggleAutoSeed";
-            btnToggleAutoSeed.Size = new Size(190, 31);
-            btnToggleAutoSeed.TabIndex = 8;
-            btnToggleAutoSeed.Text = "Auto-Seed";
-            btnToggleAutoSeed.UseVisualStyleBackColor = true;
-            btnToggleAutoSeed.Click += btnToggleAutoSeed_Click;
-            // 
             // SettingsForm
             // 
             ClientSize = new Size(704, 375);
-            Controls.Add(btnToggleAutoSeed);
             Controls.Add(lblServerDisplay);
             Controls.Add(lblWeekdayTz);
             Controls.Add(lblWeekendTz);
@@ -211,6 +197,5 @@
         private Button btnCancel;
         private Button btnSwitchMode;
         private Button btnResetDefaults;
-        private Button btnToggleAutoSeed;
     }
 }
