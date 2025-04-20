@@ -13,7 +13,7 @@ namespace AutoSeed
 {
     public partial class Form1 : Form
     {
-        const string CURRENT_VERSION = "1.0.1";
+        const string CURRENT_VERSION = "1.0.2";
         public Form1()
         {
             InitializeComponent();
@@ -443,9 +443,6 @@ namespace AutoSeed
                         .ToArray())
                 );
                 Version latestVersion = new Version(versionInfo.version);
-
-                MessageBox.Show(latestVersion.ToString());
-                MessageBox.Show(currentVersion.ToString());
 
                 if (latestVersion > currentVersion)
                 {
