@@ -9,7 +9,6 @@ namespace AutoSeed
         private Settings appSettings;
         private bool isAussieMode = false;
         private const string TaskName = "AutoSeedWakeup";
-        private string ExePath => Application.ExecutablePath;
 
         public SettingsForm()
         {
@@ -17,6 +16,8 @@ namespace AutoSeed
             appSettings = Settings.Load();
             btnToggleAutoSeed.Text = IsScheduledTaskCreated() ? "Disable Auto" : "Enable Auto";
             isAussieMode = appSettings.ServerName.Contains("GARRYBUSTERS") || appSettings.MainFormLogo == "Aussie_logo.jpg";
+            this.AutoScaleMode = AutoScaleMode.Font;
+            this.Font = new Font("Segoe UI", 9F, FontStyle.Regular);
             UpdateModeButton();
 
             timeWeekday.Value = DateTime.Today + appSettings.WeekdaySeedTime;
@@ -222,39 +223,41 @@ namespace AutoSeed
         {
             string triggerTime = "06:15"; // You can make this dynamic later
 
-            //string args = $"/Create /F /TN \"{ TaskName}\" /SC DAILY /ST {triggerTime} /RL HIGHEST /TR \"'{ExePath}' --auto\"";
-            string args = $"/Create /F /SC DAILY /TN \"{TaskName}\" /TR \"\"\"{ExePath}\" --auto\"\" /ST {triggerTime}";
+            string exePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "AutoSeed.exe");
 
-            var psi = new ProcessStartInfo
+            // Ensure the path is wrapped in quotes in case it contains spaces (like Program Files)
+            string safeExePath = $"\"{exePath}\"";
+
+            string args = $"/Create /SC DAILY /TN \"{TaskName}\" /TR {safeExePath} /ST 06:30 /RL HIGHEST /F";
+
+            ProcessStartInfo psi = new ProcessStartInfo("schtasks", args)
             {
-                FileName = "schtasks",
-                Arguments = args,
                 UseShellExecute = false,
                 RedirectStandardOutput = true,
                 RedirectStandardError = true,
                 CreateNoWindow = true
             };
 
-            using (var proc = Process.Start(psi))
+            using (var process = Process.Start(psi))
             {
-                string output = proc.StandardOutput.ReadToEnd();
-                string error = proc.StandardError.ReadToEnd();
-                proc.WaitForExit();
+                string output = process.StandardOutput.ReadToEnd();
+                string error = process.StandardError.ReadToEnd();
+                process.WaitForExit();
 
-                if (proc.ExitCode != 0)
+                if (process.ExitCode != 0)
                 {
-                    MessageBox.Show($"Failed to create task:\n\n{error}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MessageBox.Show($"Failed to create task:\n{error}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
                 else
                 {
-                    MessageBox.Show("Auto-start task created successfully!", "Task Created", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    MessageBox.Show("Auto-seeding task created successfully!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }
             }
         }
 
         private void DeleteScheduledTask()
         {
-            string args = $"/Delete /F /TN \"{ TaskName}\"";
+            string args = $"/Delete /F /TN \"{TaskName}\"";
 
             ProcessStartInfo psi = new ProcessStartInfo("schtasks", args)
             {

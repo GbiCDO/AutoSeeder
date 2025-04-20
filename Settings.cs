@@ -33,11 +33,31 @@ namespace AutoSeed
 
         public static Settings Load()
         {
-            if (!File.Exists(settingsPath))
-                return GetDefault();
+            string appDataFolder = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "AutoSeeder");
+            string userSettingsPath = Path.Combine(appDataFolder, "settings.json");
+            string installSettingsPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "settings.json");
 
-            string json = File.ReadAllText(settingsPath);
-            return JsonSerializer.Deserialize<Settings>(json) ?? GetDefault();
+            try
+            {
+                // Ensure the folder exists
+                if (!Directory.Exists(appDataFolder))
+                {
+                    Directory.CreateDirectory(appDataFolder);
+                }
+
+                // If user's settings file doesn't exist, copy from install dir
+                if (!File.Exists(userSettingsPath) && File.Exists(installSettingsPath))
+                {
+                    File.Copy(installSettingsPath, userSettingsPath);
+                }
+
+                string json = File.ReadAllText(userSettingsPath);
+                return JsonSerializer.Deserialize<Settings>(json) ?? GetDefault();
+            }
+            catch
+            {
+                return GetDefault(); // Fallback if anything fails
+            }
         }
 
         public static Settings GetDefault(string mode = "Alliance")
@@ -120,8 +140,14 @@ namespace AutoSeed
 
         public void Save()
         {
+            string userSettingsPath = Path.Combine(
+                Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData),
+                "AutoSeeder",
+                "settings.json"
+            );
+
             string json = JsonSerializer.Serialize(this, new JsonSerializerOptions { WriteIndented = true });
-            File.WriteAllText(settingsPath, json);
+            File.WriteAllText(userSettingsPath, json);
         }
     }
 
