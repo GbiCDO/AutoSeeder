@@ -13,7 +13,7 @@ namespace AutoSeed
 {
     public partial class Form1 : Form
     {
-        const string CURRENT_VERSION = "1.0.2";
+        const string CURRENT_VERSION = "1.0.3";
         public Form1()
         {
             InitializeComponent();
@@ -144,6 +144,7 @@ namespace AutoSeed
 
                 await StartGameAndJoin(server);
                 UpdateStatus($"{server.Name}: Waiting for player threshold...", Color.Orange);
+                lblCurrentServer.Text = $"Current server: {server.Name}";
 
                 bool thresholdReached = await WaitForPlayerThresholdAsync(server.ApiUrl, 65); // example threshold
 
@@ -198,7 +199,7 @@ namespace AutoSeed
 
         private async Task<bool> WaitForPlayerThresholdAsync(string apiUrl, int threshold)
         {
-            int timeoutMinutes = 60;
+            int timeoutMinutes = 300;
             DateTime endTime = DateTime.Now.AddMinutes(timeoutMinutes);
 
             while (DateTime.Now < endTime)
