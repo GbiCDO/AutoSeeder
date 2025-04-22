@@ -13,7 +13,7 @@ namespace AutoSeed
 {
     public partial class Form1 : Form
     {
-        const string CURRENT_VERSION = "1.0.3";
+        const string CURRENT_VERSION = "1.0.4";
         public Form1()
         {
             InitializeComponent();
@@ -199,7 +199,7 @@ namespace AutoSeed
 
         private async Task<bool> WaitForPlayerThresholdAsync(string apiUrl, int threshold)
         {
-            int timeoutMinutes = 300;
+            int timeoutMinutes = 600;
             DateTime endTime = DateTime.Now.AddMinutes(timeoutMinutes);
 
             while (DateTime.Now < endTime)
