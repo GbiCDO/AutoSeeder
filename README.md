@@ -1,4 +1,9 @@
-﻿AutoSeeder
+This is a work created by HAZAH7419, forked and modified for GBI uses.
+Thank you for the wonderful work that you did.
+
+https://github.com/HAZAH7419
+
+AutoSeeder
 
 AutoSeeder is a Windows desktop application built with C# WinForms that automates the process of joining and seeding Hell Let Loose servers at scheduled times. It includes time-based launching, macro-based server joining, and dynamic settings for multiple regions (Aliance and Australian modes).
 
