@@ -13,11 +13,11 @@ using System.Reflection;
 
 [assembly: System.Reflection.AssemblyCompanyAttribute("AutoSeed")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
-[assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+92a4059ec0f6a4bfbf4fb538197d52c91cb75a3a")]
+[assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.4")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.4+a02d54f5c362b1ee3522e04eaf0641fb15954ae1")]
 [assembly: System.Reflection.AssemblyProductAttribute("AutoSeed")]
 [assembly: System.Reflection.AssemblyTitleAttribute("AutoSeed")]
-[assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
+[assembly: System.Reflection.AssemblyVersionAttribute("1.0.4")]
 [assembly: System.Runtime.Versioning.TargetPlatformAttribute("Windows7.0")]
 [assembly: System.Runtime.Versioning.SupportedOSPlatformAttribute("Windows7.0")]
 

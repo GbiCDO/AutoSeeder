@@ -13,7 +13,7 @@ namespace AutoSeed
 {
     public partial class Form1 : Form
     {
-        const string CURRENT_VERSION = "1.0.4";
+        const string CURRENT_VERSION = "1.0.5";
         public Form1()
         {
             InitializeComponent();

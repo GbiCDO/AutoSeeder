@@ -1,23 +1,23 @@
 {
   "format": 1,
   "restore": {
-    "H:\\BA\\Scripts\\AutoSeed\\AutoSeed\\AutoSeed.csproj": {}
+    "C:\\Users\\flore\\AutoSeeder\\AutoSeed.csproj": {}
   },
   "projects": {
-    "H:\\BA\\Scripts\\AutoSeed\\AutoSeed\\AutoSeed.csproj": {
-      "version": "1.0.0",
+    "C:\\Users\\flore\\AutoSeeder\\AutoSeed.csproj": {
+      "version": "1.0.4",
       "restore": {
-        "projectUniqueName": "H:\\BA\\Scripts\\AutoSeed\\AutoSeed\\AutoSeed.csproj",
+        "projectUniqueName": "C:\\Users\\flore\\AutoSeeder\\AutoSeed.csproj",
         "projectName": "AutoSeed",
-        "projectPath": "H:\\BA\\Scripts\\AutoSeed\\AutoSeed\\AutoSeed.csproj",
-        "packagesPath": "C:\\Users\\Ccall\\.nuget\\packages\\",
-        "outputPath": "H:\\BA\\Scripts\\AutoSeed\\AutoSeed\\obj\\",
+        "projectPath": "C:\\Users\\flore\\AutoSeeder\\AutoSeed.csproj",
+        "packagesPath": "C:\\Users\\flore\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\flore\\AutoSeeder\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
         ],
         "configFilePaths": [
-          "C:\\Users\\Ccall\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\flore\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
@@ -82,7 +82,7 @@
               "privateAssets": "none"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.201/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.203/PortableRuntimeIdentifierGraph.json"
         }
       }
     }

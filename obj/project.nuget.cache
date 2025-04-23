@@ -1,12 +1,12 @@
 {
   "version": 2,
-  "dgSpecHash": "/oiPp4FPb3U=",
+  "dgSpecHash": "CyDovH0OtRc=",
   "success": true,
-  "projectFilePath": "H:\\BA\\Scripts\\AutoSeed\\AutoSeed\\AutoSeed.csproj",
+  "projectFilePath": "C:\\Users\\flore\\AutoSeeder\\AutoSeed.csproj",
   "expectedPackageFiles": [
-    "C:\\Users\\Ccall\\.nuget\\packages\\inputsimulator\\1.0.4\\inputsimulator.1.0.4.nupkg.sha512",
-    "C:\\Users\\Ccall\\.nuget\\packages\\newtonsoft.json\\13.0.3\\newtonsoft.json.13.0.3.nupkg.sha512",
-    "C:\\Users\\Ccall\\.nuget\\packages\\timezoneconverter\\7.0.0\\timezoneconverter.7.0.0.nupkg.sha512"
+    "C:\\Users\\flore\\.nuget\\packages\\inputsimulator\\1.0.4\\inputsimulator.1.0.4.nupkg.sha512",
+    "C:\\Users\\flore\\.nuget\\packages\\newtonsoft.json\\13.0.3\\newtonsoft.json.13.0.3.nupkg.sha512",
+    "C:\\Users\\flore\\.nuget\\packages\\timezoneconverter\\7.0.0\\timezoneconverter.7.0.0.nupkg.sha512"
   ],
   "logs": [
     {

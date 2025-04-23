@@ -6,7 +6,7 @@
   "compilationOptions": {},
   "targets": {
     ".NETCoreApp,Version=v8.0": {
-      "AutoSeed/1.0.0": {
+      "AutoSeed/1.0.4": {
         "dependencies": {
           "InputSimulator": "1.0.4",
           "Newtonsoft.Json": "13.0.3",
@@ -43,7 +43,7 @@
     }
   },
   "libraries": {
-    "AutoSeed/1.0.0": {
+    "AutoSeed/1.0.4": {
       "type": "project",
       "serviceable": false,
       "sha512": ""
