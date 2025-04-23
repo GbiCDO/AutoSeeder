@@ -1,4 +1,11 @@
-﻿namespace AutoSeed
+﻿using System;
+using System.Windows.Forms;
+using Font = System.Drawing.Font;
+using Point = System.Drawing.Point;
+using Size = System.Drawing.Size;
+using AnchorStyles = System.Windows.Forms.AnchorStyles;
+
+namespace AutoSeed
 {
     partial class SettingsForm
     {
@@ -20,6 +27,12 @@
             base.Dispose(disposing);
         }
 
+        #region Windows Form Designer generated code
+
+        /// <summary>
+        /// Required method for Designer support - do not modify
+        /// the contents of this method with the code editor.
+        /// </summary>
         private void InitializeComponent()
         {
             lblWeekday = new Label();
@@ -29,7 +42,6 @@
             timeWeekend = new DateTimePicker();
             btnSave = new Button();
             btnCancel = new Button();
-            btnSwitchMode = new Button();
             btnResetDefaults = new Button();
             lblWeekdayTz = new Label();
             lblWeekendTz = new Label();
@@ -108,17 +120,6 @@
             btnCancel.Text = "Cancel";
             btnCancel.Click += btnCancel_Click;
             // 
-            // btnSwitchMode
-            // 
-            btnSwitchMode.Anchor = AnchorStyles.Top | AnchorStyles.Right;
-            btnSwitchMode.AutoSize = true;
-            btnSwitchMode.Location = new Point(502, 9);
-            btnSwitchMode.Name = "btnSwitchMode";
-            btnSwitchMode.Size = new Size(190, 30);
-            btnSwitchMode.TabIndex = 0;
-            btnSwitchMode.Text = "Aussie Mode";
-            btnSwitchMode.Click += btnSwitchMode_Click;
-            // 
             // btnResetDefaults
             // 
             btnResetDefaults.Anchor = AnchorStyles.Top | AnchorStyles.Right;
@@ -166,7 +167,6 @@
             Controls.Add(lblWeekdayTz);
             Controls.Add(lblWeekendTz);
             Controls.Add(btnResetDefaults);
-            Controls.Add(btnSwitchMode);
             Controls.Add(lblWeekday);
             Controls.Add(timeWeekday);
             Controls.Add(lblWeekend);
@@ -184,6 +184,7 @@
             PerformLayout();
         }
 
+        #endregion
 
         private Label lblWeekday;
         private Label lblWeekend;
@@ -195,7 +196,6 @@
         private DateTimePicker timeWeekend;
         private Button btnSave;
         private Button btnCancel;
-        private Button btnSwitchMode;
         private Button btnResetDefaults;
     }
 }

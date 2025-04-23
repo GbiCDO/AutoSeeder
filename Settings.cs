@@ -4,157 +4,128 @@ namespace AutoSeed
 {
     public class Settings
     {
-        public TimeSpan WeekdaySeedTime { get; set; } = new TimeSpan(10, 0, 0); // default 10:00 AM
-        public TimeSpan WeekendSeedTime { get; set; } = new TimeSpan(10, 0, 0); // default 10:00 AM
-        public string ServerName { get; set; } = "=ROTN= | discord.gg/rangersofthenorth | LVL 25+ AT PEAK HOURS";
-        public string MainFormColor { get; set; } = "#181926";
-        public string MainFormLogo { get; set; } = "AutoSeeder.png";
+        private static readonly string SettingsPath = Path.Combine(
+            AppDomain.CurrentDomain.BaseDirectory,
+            "settings.json");
 
-        public string TimeZoneId { get; set; } = "Eastern Standard Time"; // default for Helios
+        // Default settings
+        public TimeSpan WeekdaySeedTime { get; set; } = new TimeSpan(20, 0, 0); // 8 PM
+        public TimeSpan WeekendSeedTime { get; set; } = new TimeSpan(19, 0, 0); // 7 PM
+        public string ServerName { get; set; } = "GARRYBUSTERS | discord.gg/garrybusters"; // Default to Garrybusters
+        public string TimeZoneId { get; set; } = "Eastern Standard Time";
+        public string MainFormColor { get; set; } = "#4A5D50"; // Grayish-green color
+        public string MainFormLogo { get; set; } = "Aussie_logo.jpg"; // Always use Aussie logo
+        public List<ServerEntry> ServerList { get; set; } = new List<ServerEntry>();
 
-
-        public Settings AllianceSettings { get; set; }
-        public Settings AussieSettings { get; set; }
-        public string CurrentMode { get; set; } = string.Empty;
-
-        public List<ServerEntry> ServerList { get; set; } = new List<ServerEntry>
-        {
-            new ServerEntry
-            {
-                Name = "Helios | Lvl 25+ | Discord.gg/newhelios",
-                ApiUrl = "http://207.244.232.58:7010/api/get_public_info",
-                Ip = "192.169.86.109:7787"
-            }
-        };
-
-        public string ApiUrl => ServerList?.FirstOrDefault(s => s.Name == ServerName)?.ApiUrl ?? string.Empty;
-
-        private static readonly string settingsPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "settings.json");
-
+        // Static methods to save/load settings
         public static Settings Load()
         {
-            string appDataFolder = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "AutoSeeder");
-            string userSettingsPath = Path.Combine(appDataFolder, "settings.json");
-            string installSettingsPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "settings.json");
-
             try
             {
-                // Ensure the folder exists
-                if (!Directory.Exists(appDataFolder))
+                if (File.Exists(SettingsPath))
                 {
-                    Directory.CreateDirectory(appDataFolder);
-                }
+                    string json = File.ReadAllText(SettingsPath);
+                    var settings = JsonSerializer.Deserialize<Settings>(json);
 
-                // If user's settings file doesn't exist, copy from install dir
-                if (!File.Exists(userSettingsPath) && File.Exists(installSettingsPath))
-                {
-                    File.Copy(installSettingsPath, userSettingsPath);
-                }
+                    // Always enforce Aussie mode with new grayish-green theme
+                    settings.MainFormLogo = "Aussie_logo.jpg";
+                    settings.MainFormColor = "#4A5D50";
 
-                string json = File.ReadAllText(userSettingsPath);
-                return JsonSerializer.Deserialize<Settings>(json) ?? GetDefault();
-            }
-            catch
-            {
-                return GetDefault(); // Fallback if anything fails
-            }
-        }
+                    // Filter to only include GARRY servers
+                    settings.ServerList = settings.ServerList
+                        .Where(server => server.Name.Contains("GARRY"))
+                        .ToList();
 
-        public static Settings GetDefault(string mode = "Alliance")
-        {
-            if (mode == "Aussie")
-            {
-                return new Settings
-                {
-                    WeekdaySeedTime = new TimeSpan(6, 30, 0), // 6: 30AM
-                    WeekendSeedTime = new TimeSpan(6, 30, 0), // 6: 30AM
-                    ServerName = "GARRYBUSTERS | discord.gg/garrybusters",
-                    ServerList = new List<ServerEntry>
+                    // If no GARRY servers found, add default ones
+                    if (settings.ServerList.Count == 0)
                     {
-                        new ServerEntry
-                        {
-                            Name = "GARRYBUSTERS | discord.gg/garrybusters",
-                            ApiUrl = "http://192.169.95.74:7010/api/get_public_info",
-                            Ip = "103.193.80.145:7777"
-                        }
-                    },
-                    MainFormColor = "#333333",
-                    MainFormLogo = "Aussie_logo.jpg",
-                    TimeZoneId = "AUS Eastern Standard Time"
-                };
-            }
-
-            //else if (mode == "Helios")
-            //{
-            //    return new Settings
-            //    {
-            //        WeekdaySeedTime = new TimeSpan(10, 0, 0), // 10 AM
-            //        WeekendSeedTime = new TimeSpan(10, 0, 0), // 10 AM
-            //        ServerName = "Helios | Lvl 25+ | Discord.gg/newhelios",
-            //        ServerList = new List<ServerEntry>
-            //    {
-            //        new ServerEntry
-            //        {
-            //            Name = "Helios | Lvl 25+ | Discord.gg/newhelios",
-            //            ApiUrl = "http://207.244.232.58:7010/api/get_public_info",
-            //            Ip = "192.169.86.109:7787"
-            //        }
-            //    },
-            //        MainFormColor = "#181926",
-            //        MainFormLogo = "AutoSeeder.png",
-            //        TimeZoneId = "Eastern Standard Time"
-            //    };
-            //}
-
-            // Default: Alliance Mode
-            return new Settings
-            {
-                WeekdaySeedTime = new TimeSpan(10, 0, 0), // 10 AM
-                WeekendSeedTime = new TimeSpan(10, 0, 0), // 10 AM
-                ServerList = new List<ServerEntry>
-                {
-                    new ServerEntry
-                    {
-                        Name = "=ROTN= | discord.gg/rangersofthenorth | LVL 25+ AT PEAK HOURS",
-                        ApiUrl = "https://rotn-stats.crcon.cc/api/get_public_info",
-                        Ip = "92.118.18.90:7777"
-                    },
-                    new ServerEntry
-                    {
-                        Name = "Bakers Dozen [B13] | US East | discord.gg/b13",
-                        ApiUrl = "https://b13stats.brewdawgs.vip/api/get_public_info",
-                        Ip = "192.169.86.54:7777"
-                    },
-               new ServerEntry
-                    {
-                        Name = "Helios | Lvl 25+ | Discord.gg/newhelios",
-                        ApiUrl = "http://207.244.232.58:7010/api/get_public_info",
-                        Ip = "192.169.86.109:7787"
+                        settings.ServerList = CreateDefaultGarryServer();
                     }
-                },
-                MainFormColor = "#181926",
-                MainFormLogo = "AutoSeeder.png",
-                TimeZoneId = "Eastern Standard Time"
-            };
+
+                    return settings;
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error loading settings: " + ex.Message);
+            }
+
+            return CreateDefaultSettings();
         }
 
         public void Save()
         {
-            string userSettingsPath = Path.Combine(
-                Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData),
-                "AutoSeeder",
-                "settings.json"
-            );
+            try
+            {
+                // Always enforce Aussie mode with new theme
+                MainFormLogo = "Aussie_logo.jpg";
+                MainFormColor = "#4A5D50"; // Grayish-green color
 
-            string json = JsonSerializer.Serialize(this, new JsonSerializerOptions { WriteIndented = true });
-            File.WriteAllText(userSettingsPath, json);
+                // Filter to only include GARRY servers
+                ServerList = ServerList
+                    .Where(server => server.Name.Contains("GARRY"))
+                    .ToList();
+
+                // Ensure we have at least one GARRY server
+                if (ServerList.Count == 0)
+                {
+                    ServerList = CreateDefaultGarryServer();
+                }
+
+                string json = JsonSerializer.Serialize(this, new JsonSerializerOptions
+                {
+                    WriteIndented = true
+                });
+                File.WriteAllText(SettingsPath, json);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error saving settings: " + ex.Message);
+            }
+        }
+
+        private static List<ServerEntry> CreateDefaultGarryServer()
+        {
+            var servers = new List<ServerEntry>();
+
+            servers.Add(new ServerEntry
+            {
+                Name = "GARRYBUSTERS | discord.gg/garrybusters",
+                Ip = "103.193.80.145:7777",
+                ApiUrl = "http://192.169.95.74:7010/api/get_public_info"
+            });
+
+            servers.Add(new ServerEntry
+            {
+                Name = "GARRYBUSTERS 2 | discord.gg/garrybusters",
+                Ip = "103.193.80.145:7787",
+                ApiUrl = "http://192.169.95.74:7012/api/get_public_info"
+            });
+
+            return servers;
+        }
+
+        private static Settings CreateDefaultSettings()
+        {
+            var settings = new Settings();
+
+            // Add default GARRYBUSTERS server
+            settings.ServerList = CreateDefaultGarryServer();
+
+            return settings;
+        }
+
+        public static void ResetToDefaults()
+        {
+            var defaults = CreateDefaultSettings();
+            defaults.Save();
         }
     }
 
     public class ServerEntry
     {
         public string Name { get; set; }
-        public string ApiUrl { get; set; }
         public string Ip { get; set; }
+        public string ApiUrl { get; set; }
     }
 }
