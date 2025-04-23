@@ -431,7 +431,7 @@ namespace AutoSeed
 
         private async void btnCheckForUpdates_Click(object sender, EventArgs e)
         {
-            string versionUrl = "https://hazah7419.github.io/AutoSeeder/version.json";
+            string versionUrl = "https://gbicdo.github.io/AutoSeeder/version.json";
             try
             {
                 using HttpClient client = new HttpClient();
